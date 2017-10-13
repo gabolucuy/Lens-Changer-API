@@ -50,3 +50,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'wdm', '>= 0.1.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'jwt'
+gem 'angular_rails_csrf'
+gem 'rack-cors', :require => 'rack/cors'

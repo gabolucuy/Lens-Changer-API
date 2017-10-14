@@ -1,0 +1,2 @@
+class LaggingSkillController < ApplicationController
+end

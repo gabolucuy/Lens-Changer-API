@@ -1,0 +1,2 @@
+class LaggingSkill < ApplicationRecord
+end

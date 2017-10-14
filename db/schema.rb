@@ -22,4 +22,12 @@ ActiveRecord::Schema.define(version: 20171012001645) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "children", force: :cascade do |t|
+    t.string "name"
+    t.string "gender"
+    t.date "birthday"    
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
 end

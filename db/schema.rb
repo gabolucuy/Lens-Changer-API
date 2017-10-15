@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171014220956) do
+ActiveRecord::Schema.define(version: 20171015000242) do
 
   create_table "children", force: :cascade do |t|
     t.string "name"
@@ -23,9 +23,10 @@ ActiveRecord::Schema.define(version: 20171014220956) do
   create_table "lagging_skills", force: :cascade do |t|
     t.text "description"
     t.integer "checked"
-    t.integer "child_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "child_id"
+    t.index ["child_id"], name: "index_lagging_skills_on_child_id"
   end
 
   create_table "users", force: :cascade do |t|

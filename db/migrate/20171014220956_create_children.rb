@@ -1,6 +1,6 @@
 class CreateChildren < ActiveRecord::Migration[5.1]
   def change
-    drop_table :children
+    #drop_table :children
     create_table :children do |t|
       t.string "name"
       t.string "gender"

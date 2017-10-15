@@ -17,7 +17,6 @@ class LaggingSkillController < ApplicationController
 
     def lagging_skill_params
         params.permit(
-            :id
             :description,
             :checked,
             :child_id,            

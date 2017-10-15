@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -25,6 +25,13 @@ gem 'puma', '~> 3.7'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
+if ENV['CI']
+  ruby RUBY_VERSION
+else
+  # TODO: read from the gemspec somehow? (Apparently Bundler will do that in Bundler 2.x)
+  ruby File.read('.ruby-version') rescue RUBY_VERSION
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -48,5 +55,5 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'wdm', '>= 0.1.0'
-gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', platforms: :ruby
 gem 'jwt'

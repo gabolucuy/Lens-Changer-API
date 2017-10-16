@@ -1,5 +1,5 @@
 class ChildrenController < ApplicationController
-    skip_before_action :authorize_request, only: [:create, :getChild,:show]
+    skip_before_action :authorize_request, only: [:create, :getChild,:show,:getLaggingSkillsOfChild]
 
         def create
             if(Child.exists?(params[:id]))
@@ -16,6 +16,12 @@ class ChildrenController < ApplicationController
         def getChild
             @child = Child.where(id: params[:child_id])
             json_response(@child)
+        end
+
+        def getLaggingSkillsOfChild
+            @child = Child.where(id: params[:child_id])
+            @laggingSkill = LaggingSkill.where(child_id: params[:child_id])
+            json_response(@laggingSkill)
         end
 
         def show

@@ -38,4 +38,25 @@ RSpec.describe 'Users API', type: :request do
       end
     end
   end
+
+  describe 'GET /me' do
+    let!(:user) { create :user }
+    let!(:headers) { valid_headers.except('Authorization') }
+    let!(:valid_attributes) do
+      attributes_for(:user, password_confirmation: user.password)
+    end
+    context 'when the user wants his information' do
+      before { get '/me', headers: headers ,params: {email:user.email}}
+      it "returns the name of the user" do
+        expect(json['name']).to eq(user.name)
+      end
+      it "returns the email of the user" do
+        expect(json['email']).to eq(user.email)
+      end
+      it "returns the last name of the user" do
+        expect(json['last_name']).to eq(user.last_name)
+      end
+    end
+  end
+
 end

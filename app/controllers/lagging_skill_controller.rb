@@ -2,16 +2,20 @@ class LaggingSkillController < ApplicationController
     skip_before_action :authorize_request, only: [:create, :getLaggingSkill]
 
     def create
-        lagging_skill = LaggingSkill.create(lagging_skill_params)        
+        lagging_skill = LaggingSkill.create(lagging_skill_params)
         response = { message: "Dificultad agregada!" }
         json_response(response)
     end
 
-    
+
     def getLaggingSkill
-        @lagging_skill = LaggingSkill.where(id: params[:lagging_skill_id])        
+        @lagging_skill = LaggingSkill.where(id: params[:lagging_skill_id])
         json_response(@lagging_skill)
     end
+
+    def protect_against_forgery?
+        false
+      end
 
     private
 
@@ -19,8 +23,8 @@ class LaggingSkillController < ApplicationController
         params.permit(
             :description,
             :checked,
-            :child_id,            
+            :child_id,
             )
-    end    
+    end
 
 end

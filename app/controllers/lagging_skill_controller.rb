@@ -2,9 +2,15 @@ class LaggingSkillController < ApplicationController
     skip_before_action :authorize_request, only: [:create, :getLaggingSkill]
 
     def create
-        lagging_skill = LaggingSkill.create(lagging_skill_params)
-        response = { message: "Dificultad agregada!" }
-        json_response(response)
+        if(LaggingSkill.exists?(params[:id]))
+            LaggingSkill.update(:id => params[:id], :description => params[:description], :checked => params[:checked], :child_id => params[:child_id])
+            response = { message: "Dificultad actualizada!"}
+            json_response(response)
+        else
+          laggingSkill = LaggingSkill.create(:id => params[:id], :description => params[:description], :checked => params[:checked], :child_id => params[:child_id])
+          response = { message: "Dificultad agregada!"}
+          json_response(response)
+        end
     end
 
 

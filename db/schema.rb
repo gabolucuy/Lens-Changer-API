@@ -10,7 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171012001645) do
+ActiveRecord::Schema.define(version: 20171016034529) do
+
+  create_table "adult_concerns", force: :cascade do |t|
+    t.text "description"
+    t.integer "unsolved_problem_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "children", force: :cascade do |t|
+    t.string "name"
+    t.string "gender"
+    t.date "birthday"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "lagging_skills", force: :cascade do |t|
+    t.text "description"
+    t.integer "checked"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "child_id"
+    t.index ["child_id"], name: "index_lagging_skills_on_child_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"

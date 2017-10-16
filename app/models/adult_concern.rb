@@ -1,0 +1,2 @@
+class AdultConcern < ApplicationRecord
+end

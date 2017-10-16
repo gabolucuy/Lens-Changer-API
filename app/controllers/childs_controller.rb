@@ -2,8 +2,8 @@ class ChildsController < ApplicationController
     skip_before_action :authorize_request, only: [:create, :getChild]    
 
     def create
-        child = Child.create(child_params)        
-        response = { message: "Niño creado!" }
+        child = Child.create!(child_params)                
+        response = { message: "Niño creado!"}
         json_response(response)
     end
 

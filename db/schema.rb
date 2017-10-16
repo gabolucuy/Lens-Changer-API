@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016051512) do
+ActiveRecord::Schema.define(version: 20171016041420) do
 
   create_table "adult_concerns", force: :cascade do |t|
     t.text "description"
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 20171016051512) do
     t.date "birthday"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_children_on_user_id"
   create_table "lagging_skills", force: :cascade do |t|
     t.text "description"
     t.integer "checked"

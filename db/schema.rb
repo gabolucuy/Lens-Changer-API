@@ -36,6 +36,17 @@ ActiveRecord::Schema.define(version: 20171016034529) do
     t.index ["child_id"], name: "index_lagging_skills_on_child_id"
   end
 
+  create_table "unsolved_problems", force: :cascade do |t|
+    t.text "description"
+    t.boolean "solved"
+    t.integer "unsolved_order"
+    t.integer "unsolved_score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_unsolved_problems_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "last_name"

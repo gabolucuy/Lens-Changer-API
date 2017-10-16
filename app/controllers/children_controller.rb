@@ -23,8 +23,7 @@ class ChildrenController < ApplicationController
             params.permit(
                 :name,
                 :gender,
-                :birthday,
-                :user_id            
+                :birthday           
                 )
         end    
 end

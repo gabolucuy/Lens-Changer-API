@@ -13,6 +13,11 @@ class UsersController < ApplicationController
     email = params['email']
     render json: User.find_by(email: email)
   end
+
+  def protect_against_forgery?
+    false
+  end
+
   private
 
   def user_params

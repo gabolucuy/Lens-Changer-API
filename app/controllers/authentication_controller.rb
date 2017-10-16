@@ -7,6 +7,10 @@ class AuthenticationController < ApplicationController
     json_response(auth_token: auth_token)
   end
 
+  def protect_against_forgery?
+    false
+  end
+
   private
 
   def auth_params

@@ -3,4 +3,7 @@ Rails.application.routes.draw do
   post 'signup', to: 'users#create'
   post 'createChild', to: 'childs#create'
   get 'getChild' => 'childs#getChild'
+  
+  get 'me', to: 'users#me'
+
 end

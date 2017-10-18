@@ -9,9 +9,6 @@ Rails.application.routes.draw do
     end
   end
 
-    # post 'createAdultConcern', to: 'adult_concern#create'
-    # get 'getAdultConcern' => 'adult_concern#getAdultConcern'
-    # post 'createLaggingSkill', to: 'lagging_skill#create'
 
 
 

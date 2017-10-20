@@ -1,0 +1,2 @@
+class ChildConcernController < ApplicationController
+end

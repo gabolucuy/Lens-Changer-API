@@ -4,4 +4,5 @@ class Child < ApplicationRecord
     belongs_to :user
 
     has_many :lagging_skills
+    has_many :unsolved_problems
   end

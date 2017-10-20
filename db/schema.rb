@@ -10,14 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171018174223) do
+ActiveRecord::Schema.define(version: 20171020185045) do
 
   create_table "adult_concerns", force: :cascade do |t|
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "unsolved_problem_id"
-    t.index ["unsolved_problem_id"], name: "index_adult_concerns_on_unsolved_problem_id"
   end
 
   create_table "child_concerns", force: :cascade do |t|
@@ -50,12 +48,14 @@ ActiveRecord::Schema.define(version: 20171018174223) do
 
   create_table "unsolved_problems", force: :cascade do |t|
     t.text "description"
-    t.boolean "solved"
     t.integer "unsolved_order"
     t.integer "unsolved_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "child_id"
+    t.integer "solved"
+    t.index ["child_id"], name: "index_unsolved_problems_on_child_id"
     t.index ["user_id"], name: "index_unsolved_problems_on_user_id"
   end
 

@@ -2,8 +2,9 @@ class ChildrenController < ApplicationController
     skip_before_action :authorize_request, only: [:create, :getChild,:show,:getLaggingSkillsOfChild]
 
         def create
-            if(Child.exists?(params[:id]))
-                Child.update(params[:id], :name => params[:name], :gender => params[:gender], :birthday => params[:birthday], :user_id => params[:user_id])
+            c = Child.where(child_id: params[:child_id], user_id: params[:user_id]) 
+            if(c.exists?)
+                c.update(:name => params[:name], :gender => params[:gender], :birthday => params[:birthday])
                 response = { message: "Child Updated"}
                 json_response(response)
             else
@@ -14,7 +15,7 @@ class ChildrenController < ApplicationController
         end
 
         def getChild
-            @child = Child.where(id: params[:child_id])
+            @child = Child.where(child_id: params[:child_id], user_id: params[:user_id])
             json_response(@child)
         end
 
@@ -25,7 +26,7 @@ class ChildrenController < ApplicationController
         end
 
         def show
-            @child = Child.find_by(params['child_id'])
+            @child = Child.find_by(child_id: params[:id], user_id: params[:user_id])
             json_response(@child)
         end
 
@@ -37,6 +38,8 @@ class ChildrenController < ApplicationController
 
         def child_params
             params.permit(
+                :id,
+                :child_id,                
                 :name,
                 :gender,
                 :birthday,

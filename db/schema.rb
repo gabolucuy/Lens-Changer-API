@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20171016051512) do
   end
 
   create_table "children", force: :cascade do |t|
+    t.integer "child_id"
     t.string "name"
     t.string "gender"
     t.date "birthday"

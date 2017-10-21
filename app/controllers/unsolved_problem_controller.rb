@@ -21,15 +21,23 @@ class UnsolvedProblemController < ApplicationController
                                                    :child_id => json_up["child_id"],
                                                     )
 
-                api_child = UnsolvedProblem.where("child_id = ? AND user_id = ? AND unsolved_problem_id_app = ?" ,json_up["child_id"], user_id, json_up["id"]).count
-                if api_child<1
+                api_child = UnsolvedProblem.where("child_id = ? AND user_id = ? AND unsolved_problem_id_app = ?" ,json_up["child_id"], user_id, json_up["id"])
+                if api_child.count < 1
                     if unsolved_problem.save
                         response = { message: "Unsolved Problem created"}
                     else
                         response = { message: "Error, no Unsolved Problem created"}
                     end
                 else
-                    response = {message: "Error, child is not in database"}
+                    if api_child.update(:description => json_up["description"],
+                                        :solved => json_up["solved"],
+                                        :unsolved_problem_id_app => json_up["id"],
+                                        :unsolved_order => json_up["unsolved_order"],
+                                        :unsolved_score => json_up["unsolved_score"])
+                        response = { message: "Unsolved Problem created"}
+                    else
+                        response = { message: "Error, no Unsolved Problem created"}
+                    end
                 end
 
             return response

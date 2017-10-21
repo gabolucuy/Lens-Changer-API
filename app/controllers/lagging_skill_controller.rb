@@ -6,8 +6,6 @@ class LaggingSkillController < ApplicationController
       data =  JSON.parse(params[:data])
       response = ""
       data.each do |json_up|
-          puts "************************"
-          puts data
           response = create_laggingSkill(json_up)
       end
       json_response(response)
@@ -20,7 +18,7 @@ class LaggingSkillController < ApplicationController
                                          :child_id => json_up["child_id"])
         laggingSkillsData.save
 
-            response = { message: "laggingSkill created"}
+        response = { message: "laggingSkill created"}
         return response
     end
 

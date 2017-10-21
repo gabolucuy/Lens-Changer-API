@@ -5,8 +5,6 @@ class UnsolvedProblemController < ApplicationController
             data =  JSON.parse(params[:data])
             response = ""
             data.each do |json_up|
-                puts "************************"
-                puts data
                 response = create_unsolved_problem(json_up,params[:user_id])
             end
             json_response(response)
@@ -34,7 +32,7 @@ class UnsolvedProblemController < ApplicationController
                                         :unsolved_problem_id_app => json_up["id"],
                                         :unsolved_order => json_up["unsolved_order"],
                                         :unsolved_score => json_up["unsolved_score"])
-                        response = { message: "Unsolved Problem created"}
+                        response = { message: "Unsolved Problem updated"}
                     else
                         response = { message: "Error, no Unsolved Problem created"}
                     end

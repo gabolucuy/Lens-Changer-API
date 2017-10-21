@@ -2,6 +2,7 @@ class CreateChildren < ActiveRecord::Migration[5.1]
   def change
     #drop_table :children
     create_table :children do |t|
+      t.integer "child_id"
       t.string "name"
       t.string "gender"
       t.date "birthday"

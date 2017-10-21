@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171018174223) do
+ActiveRecord::Schema.define(version: 20171021045957) do
 
   create_table "adult_concerns", force: :cascade do |t|
     t.text "description"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20171018174223) do
   end
 
   create_table "children", force: :cascade do |t|
+    t.integer "child_id"
     t.string "name"
     t.string "gender"
     t.date "birthday"
@@ -50,12 +51,15 @@ ActiveRecord::Schema.define(version: 20171018174223) do
 
   create_table "unsolved_problems", force: :cascade do |t|
     t.text "description"
-    t.boolean "solved"
     t.integer "unsolved_order"
     t.integer "unsolved_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "child_id"
+    t.integer "solved"
+    t.integer "unsolved_problem_id_app"
+    t.index ["child_id"], name: "index_unsolved_problems_on_child_id"
     t.index ["user_id"], name: "index_unsolved_problems_on_user_id"
   end
 

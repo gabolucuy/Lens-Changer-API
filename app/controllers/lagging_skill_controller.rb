@@ -1,30 +1,34 @@
 class LaggingSkillController < ApplicationController
     skip_before_action :authorize_request, only: [:create, :getLaggingSkill]
 
-    # def create
-    #     LaggingSkill.destroy_all
-    #     if(LaggingSkill.exists?(params[:id]))
-    #         LaggingSkill.update(:id => params[:id], :description => params[:description], :checked => params[:checked], :child_id => params[:child_id])
-    #         laggingSkill = LaggingSkill.where(id: params[:lagging_skill_id])
-    #         #laggingSkillUncheck(laggingSkill)
-    #
-    #         response = { message: "Dificultad actualizada!"}
-    #         json_response(response)
-    #     else
-    #       laggingSkill = LaggingSkill.create(:id => params[:id], :description => params[:description], :checked => params[:checked], :child_id => params[:child_id])
-    #       response = { message: "Dificultad agregada!"}
-    #       json_response(response)
-    #     end
-    # end
-
     def create
-      laggingSkillData = params.permit(:data => [:id, :description, :checked, :child_id])
-
-      laggingSkillData.each do |laggingSkill|
-        laggingSkill = LaggingSkill.create(:id => params[:id], :description => params[:description], :checked => params[:checked], :child_id => params[:child_id])
+      destroyLaggingSkillsOfChild(params[:child_id])
+      data =  JSON.parse(params[:data])
+      response = ""
+      data.each do |json_up|
+          puts "************************"
+          puts data
+          response = create_laggingSkill(json_up)
       end
-      response = { message: "LaggingSkills agregada!"}
       json_response(response)
+    end
+
+    def create_laggingSkill(json_up)
+        laggingSkillsData = LaggingSkill.new( :id => json_up["id"],
+                                         :description => json_up["description"],
+                                         :checked => json_up["checked"],
+                                         :child_id => json_up["child_id"])
+        laggingSkillsData.save
+
+            response = { message: "laggingSkill created"}
+        return response
+    end
+
+    def destroyLaggingSkillsOfChild(child_id)
+        laggingSkillsDB = LaggingSkill.where(child_id: child_id)
+        laggingSkillsDB.each do |laggingSkill|
+          laggingSkill.destroy
+        end
     end
 
 

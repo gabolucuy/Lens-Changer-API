@@ -2,7 +2,7 @@ class ChildrenController < ApplicationController
     skip_before_action :authorize_request, only: [:create, :getChild,:show,:getLaggingSkillsOfChild]
 
         def create
-            c = Child.where(child_id: params[:child_id], user_id: params[:user_id]) 
+            c = Child.where(child_id: params[:child_id], user_id: params[:user_id])
             if(c.exists?)
                 c.update(:name => params[:name], :gender => params[:gender], :birthday => params[:birthday])
                 response = { message: "Child Updated"}
@@ -39,7 +39,7 @@ class ChildrenController < ApplicationController
         def child_params
             params.permit(
                 :id,
-                :child_id,                
+                :child_id,
                 :name,
                 :gender,
                 :birthday,

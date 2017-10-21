@@ -18,6 +18,7 @@ class ChildConcernController < ApplicationController
       def adult_concern_params
           params.permit(
               :description,
+              :order,
               :unsolved_problem_id,
               )
       end

@@ -1,12 +1,15 @@
 class UnsolvedProblemController < ApplicationController
-    skip_before_action :authorize_request, only: [:create, :getUnsolvedProblem]
+    skip_before_action :authorize_request, only: [:create, :getUnsolvedProblem,:index]
+
+        def index
+            @unsolved_problems = UnsolvedProblem.where("child_id = ? AND user_id = ?" ,params[:child_id],params[:user_id])
+            json_response(@unsolved_problems)
+        end
 
     	def create
             data =  JSON.parse(params[:data])
             response = ""
             data.each do |json_up|
-                puts "************************"
-                puts data
                 response = create_unsolved_problem(json_up,params[:user_id])
             end
             json_response(response)
@@ -20,20 +23,19 @@ class UnsolvedProblemController < ApplicationController
                                                    :user_id => user_id,
                                                    :child_id => json_up["child_id"],
                                                     )
-
-                api_unsolved_problem = UnsolvedProblem.where("child_id = ? AND user_id = ? AND unsolved_problem_id_app = ?" ,json_up["child_id"], user_id, json_up["id"])
+                api_child = Child.where("child_id = ? AND user_id = ?",json_up["child_id"], user_id ).first                   
+                api_unsolved_problem = UnsolvedProblem.where("child_id = ? AND user_id = ? AND unsolved_problem_id_app = ?" ,api_child.id, user_id, json_up["id"])
                 if api_unsolved_problem.exists?
                     if api_unsolved_problem.update(:description => json_up["description"],
                                         :solved => json_up["solved"],
                                         :unsolved_problem_id_app => json_up["id"],
                                         :unsolved_order => json_up["unsolved_order"],
                                         :unsolved_score => json_up["unsolved_score"])
-                        response = { message: "Unsolved Problem created"}
+                        response = { message: "Unsolved Problem updated"}
                     else
                         response = { message: "Error, no Unsolved Problem created"}
                     end              
                 else
-                    api_child = Child.where("child_id = ? AND user_id = ?",json_up["child_id"], user_id ).first
                     unsolved_problem.child_id = api_child.id
                     if unsolved_problem.save
                         response = { message: "Unsolved Problem created"}

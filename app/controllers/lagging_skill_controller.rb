@@ -18,7 +18,7 @@ class LaggingSkillController < ApplicationController
     # end
 
     def create
-      laggingSkillData = params[:data]
+      laggingSkillData = params.permit(:data => [:id, :description, :checked, :child_id])
 
       laggingSkillData.each do |laggingSkill|
         laggingSkill = LaggingSkill.create(:id => params[:id], :description => params[:description], :checked => params[:checked], :child_id => params[:child_id])

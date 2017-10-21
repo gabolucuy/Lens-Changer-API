@@ -20,8 +20,8 @@ class UnsolvedProblemController < ApplicationController
                                                    :user_id => user_id,
                                                    :child_id => json_up["child_id"],
                                                     )
-
-                api_unsolved_problem = UnsolvedProblem.where("child_id = ? AND user_id = ? AND unsolved_problem_id_app = ?" ,json_up["child_id"], user_id, json_up["id"])
+                api_child = Child.where("child_id = ? AND user_id = ?",json_up["child_id"], user_id ).first                   
+                api_unsolved_problem = UnsolvedProblem.where("child_id = ? AND user_id = ? AND unsolved_problem_id_app = ?" ,api_child.id, user_id, json_up["id"])
                 if api_unsolved_problem.exists?
                     if api_unsolved_problem.update(:description => json_up["description"],
                                         :solved => json_up["solved"],
@@ -33,7 +33,6 @@ class UnsolvedProblemController < ApplicationController
                         response = { message: "Error, no Unsolved Problem created"}
                     end              
                 else
-                    api_child = Child.where("child_id = ? AND user_id = ?",json_up["child_id"], user_id ).first
                     unsolved_problem.child_id = api_child.id
                     if unsolved_problem.save
                         response = { message: "Unsolved Problem created"}

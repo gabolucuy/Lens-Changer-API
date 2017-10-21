@@ -1,21 +1,31 @@
 class ChildConcernController < ApplicationController
-  skip_before_action :authorize_request, only: [:create, :getAdultConcern]
+  skip_before_action :authorize_request, only: [:create, :getChildConcern]
 
       def create
-          child_concern= ChildConcern.create(adult_concern_params)
-          response = { message: "Child concern agregado!" }
-          json_response(response)
+          if(ChildConcern.exists?(params[:id]))
+              ChildConcern.update(:id => params[:id], :description => params[:description], :order => params[:order], :unsolved_problem_id => params[:unsolved_problem_id])
+              response = { message: "Preocupacion actualizada!"}
+              json_response(response)
+          else
+            child_concern = ChildConcern.create(:id => params[:id], :description => params[:description], :order => params[:order], :unsolved_problem_id => params[:unsolved_problem_id])
+            response = { message: "Preocupacion agregada!"}
+            json_response(response)
+          end
       end
 
 
-      def getAdultConcern
-          @child_concern = ChildConcern.where(id: params[:adult_concern_id])
+      def getChildConcern
+          @child_concern = ChildConcern.where(id: params[:child_concern_id])
           json_response(@child_concern)
       end
 
+      def protect_against_forgery?
+          false
+        end
+
       private
 
-      def adult_concern_params
+      def child_concern_params
           params.permit(
               :description,
               :order,

@@ -32,7 +32,7 @@ class ChildConcernController < ApplicationController
                        response = { message: "Error, Child Concern created"}
                    end
               else
-                  if adult_concern.save
+                  if child_concern.save
                       response = { message: "Child Concern created"}
                   else
                       response = { message: "Error, no Child Concern created"}

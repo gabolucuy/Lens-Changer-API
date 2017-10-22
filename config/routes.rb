@@ -8,6 +8,10 @@ Rails.application.routes.draw do
         resources "unsolved_problem" do
           resources :child_concern do
           end
+          get 'myAdultConcerns' => 'unsolved_problem#getMyAdultConcerns'
+          resources :adult_concern do
+
+          end
         end
         resources :lagging_skill do
 

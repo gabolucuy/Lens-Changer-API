@@ -2,14 +2,30 @@ class LaggingSkillController < ApplicationController
     skip_before_action :authorize_request, only: [:create, :getLaggingSkill]
 
     def create
-        if(LaggingSkill.exists?(params[:id]))
-            LaggingSkill.update(:id => params[:id], :description => params[:description], :checked => params[:checked], :child_id => params[:child_id])
-            response = { message: "Dificultad actualizada!"}
-            json_response(response)
-        else
-          laggingSkill = LaggingSkill.create(:id => params[:id], :description => params[:description], :checked => params[:checked], :child_id => params[:child_id])
-          response = { message: "Dificultad agregada!"}
-          json_response(response)
+      destroyLaggingSkillsOfChild(params[:child_id])
+      data =  JSON.parse(params[:data])
+      response = ""
+      data.each do |json_up|
+          response = create_laggingSkill(json_up)
+      end
+      json_response(response)
+    end
+
+    def create_laggingSkill(json_up)
+        laggingSkillsData = LaggingSkill.new( :id => json_up["id"],
+                                         :description => json_up["description"],
+                                         :checked => json_up["checked"],
+                                         :child_id => json_up["child_id"])
+        laggingSkillsData.save
+
+        response = { message: "laggingSkill created"}
+        return response
+    end
+
+    def destroyLaggingSkillsOfChild(child_id)
+        laggingSkillsDB = LaggingSkill.where(child_id: child_id)
+        laggingSkillsDB.each do |laggingSkill|
+          laggingSkill.destroy
         end
     end
 
@@ -17,6 +33,13 @@ class LaggingSkillController < ApplicationController
     def getLaggingSkill
         @lagging_skill = LaggingSkill.where(id: params[:lagging_skill_id])
         json_response(@lagging_skill)
+    end
+
+    def destroy
+        @lagging_skill = LaggingSkill.where(id: params[:lagging_skill_id])
+        @lagging_skill.destroy
+        response = { message: "LaggingSkill Unchecked!"}
+        json_response(response)
     end
 
     def protect_against_forgery?

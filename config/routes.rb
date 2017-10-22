@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   resources :users do
     resources :children do
         get 'getLaggingSkills' => 'children#getLaggingSkillsOfChild'
+        resources "unsolved_problem" do
+
+        end
         resources :lagging_skill do
+
         end
     end
   end

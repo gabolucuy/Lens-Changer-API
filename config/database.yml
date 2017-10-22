@@ -23,3 +23,5 @@ test:
 production:
   <<: *default
   database: db/production.sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 20 } %>
+  timeout: 20000

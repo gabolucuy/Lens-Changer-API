@@ -1,5 +1,5 @@
 class UnsolvedProblemController < ApplicationController
-    skip_before_action :authorize_request, only: [:create, :getUnsolvedProblem,:index]
+    skip_before_action :authorize_request, only: [:create, :getUnsolvedProblem,:index,:getMyAdultConcerns]
 
         def index
             @unsolved_problems = UnsolvedProblem.where("child_id = ? AND user_id = ?" ,params[:child_id],params[:user_id])
@@ -23,7 +23,7 @@ class UnsolvedProblemController < ApplicationController
                                                    :user_id => user_id,
                                                    :child_id => json_up["child_id"],
                                                     )
-                api_child = Child.where("child_id = ? AND user_id = ?",json_up["child_id"], user_id ).first                   
+                api_child = Child.where("child_id = ? AND user_id = ?",json_up["child_id"], user_id ).first
                 api_unsolved_problem = UnsolvedProblem.where("child_id = ? AND user_id = ? AND unsolved_problem_id_app = ?" ,api_child.id, user_id, json_up["id"])
                 if api_unsolved_problem.exists?
                     if api_unsolved_problem.update(:description => json_up["description"],
@@ -34,7 +34,7 @@ class UnsolvedProblemController < ApplicationController
                         response = { message: "Unsolved Problem updated"}
                     else
                         response = { message: "Error, no Unsolved Problem created"}
-                    end              
+                    end
                 else
                     unsolved_problem.child_id = api_child.id
                     if unsolved_problem.save
@@ -50,6 +50,11 @@ class UnsolvedProblemController < ApplicationController
             @unsolved_problem = UnsolvedProblem.where(id: params[:unsolved_problem_id])
             json_response(@unsolved_problem)
 
+        end
+
+        def getMyAdultConcerns
+            @myAdultConcerns = AdultConcern.where(unsolved_problem_id: params[:unsolved_problem_id])
+            json_response(@myAdultConcerns)
         end
 
         def protect_against_forgery?

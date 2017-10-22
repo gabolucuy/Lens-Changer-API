@@ -6,7 +6,8 @@ Rails.application.routes.draw do
     resources :children do
         get 'getLaggingSkills' => 'children#getLaggingSkillsOfChild'
         resources "unsolved_problem" do
-
+          resources :child_concern do
+          end
         end
         resources :lagging_skill do
 

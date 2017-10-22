@@ -4,5 +4,4 @@ class UnsolvedProblem < ApplicationRecord
 	validates_presence_of  :description,:solved ,:unsolved_order ,:unsolved_score ,:user
   has_many :child_concerns
 	has_many :adult_concerns
-	has_many :child_concerns
 end

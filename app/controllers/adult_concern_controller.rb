@@ -10,7 +10,7 @@ class AdultConcernController < ApplicationController
           data =  JSON.parse(params[:data])
           response = ""
           data.each do |json_up|
-              response = create_adult_concern(json_up,params[:unsolved_problem_id])
+              response = create_adult_concern(json_up)
           end
           json_response(response)
         end
@@ -37,7 +37,7 @@ class AdultConcernController < ApplicationController
                     else
                         response = { message: "Error, no Adult Concern created"}
                     end
-                end
+
 
             return response
         end
@@ -56,7 +56,7 @@ class AdultConcernController < ApplicationController
         def adult_concern_params
             params.permit(
                 :description,
-                :unsolved_problem_id,
+                :unsolved_problem_id
                 )
         end
 end

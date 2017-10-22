@@ -1,5 +1,5 @@
 class UnsolvedProblemController < ApplicationController
-    skip_before_action :authorize_request, only: [:create, :getUnsolvedProblem,:index,:getMyAdultConcerns]
+    skip_before_action :authorize_request, only: [:create, :getUnsolvedProblem,:index,:getMyAdultConcerns,:getChildConcerns]
 
         def index
             @child = Child.where("child_id = ? AND user_id = ?" ,params[:child_id],params[:user_id]).first
@@ -55,6 +55,11 @@ class UnsolvedProblemController < ApplicationController
         def getMyAdultConcerns
             @myAdultConcerns = AdultConcern.where(unsolved_problem_id: params[:unsolved_problem_id])
             json_response(@myAdultConcerns)
+        end
+
+        def getChildConcerns
+            @childConcerns = ChildConcern.where(unsolved_problem_id: params[:unsolved_problem_id])
+            json_response(@childConcerns)
         end
 
         def protect_against_forgery?

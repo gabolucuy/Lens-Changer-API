@@ -16,27 +16,28 @@ class AdultConcernController < ApplicationController
         end
 
         def create_adult_concern(json_up)
-            adult_concern = AdultConcern.new(:description => json_up["description"],
+            adult_concern = AdultConcern.new( :id => json_up["id"],
+                                              :description => json_up["description"],
                                               :unsolved_problem_id => json_up["unsolved_problem_id"])
-                # api_child = Child.where("child_id = ? AND user_id = ?",json_up["child_id"], user_id ).first
-                # api_unsolved_problem = UnsolvedProblem.where("child_id = ? AND user_id = ? AND unsolved_problem_id_app = ?" ,api_child.id, user_id, json_up["id"])
-                # if api_unsolved_problem.exists?
-                #     if api_unsolved_problem.update(:description => json_up["description"],
-                #                         :solved => json_up["solved"],
-                #                         :unsolved_problem_id_app => json_up["id"],
-                #                         :unsolved_order => json_up["unsolved_order"],
-                #                         :unsolved_score => json_up["unsolved_score"])
-                #         response = { message: "Unsolved Problem updated"}
-                #     else
-                #         response = { message: "Error, no Unsolved Problem created"}
-                #     end
-                # else
-                #     unsolved_problem.child_id = api_child.id
+                api_child = Child.where("child_id = ? AND user_id = ?",params[:child_id], params[:user_id] ).first
+                puts "**************************"
+                puts api_child.id
+                api_adult_concern = AdultConcern.where("id = ? AND unsolved_problem_id = ?" ,json_up["id"], json_up["unsolved_problem_id"])
+                if api_adult_concern.exists?
+                     if api_adult_concern.update(:id => json_up["id"],
+                                                 :description => json_up["description"],
+                                                 :unsolved_problem_id => json_up["unsolved_problem_id"])
+                         response = { message: "Adult Concern updated"}
+                     else
+                         response = { message: "Error, Adult Concern created"}
+                     end
+                else
                     if adult_concern.save
                         response = { message: "Adult Concern created"}
                     else
                         response = { message: "Error, no Adult Concern created"}
                     end
+                end
 
 
             return response

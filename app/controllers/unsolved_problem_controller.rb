@@ -2,8 +2,8 @@ class UnsolvedProblemController < ApplicationController
     skip_before_action :authorize_request, only: [:create, :getUnsolvedProblem,:index,:getMyAdultConcerns]
 
         def index
-            @unsolved_problems = UnsolvedProblem.where("child_id = ? AND user_id = ?" ,params[:child_id],params[:user_id])
-            json_response(@unsolved_problems)
+            @child = Child.where("child_id = ? AND user_id = ?" ,params[:child_id],params[:user_id]).first
+            json_response(@child.unsolved_problems)
         end
 
     	def create

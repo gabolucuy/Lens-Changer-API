@@ -3,7 +3,11 @@ class ContactsController < ApplicationController
     
     def create
         contact = Contact.create(contact_params)
-        response = { message: "friend added to contact list"}
+        if contact.save
+            response = { message: "Persona agregada a la lista de contactos"}
+        else
+            response = { message: "La persona que desea añadir ya se encuentra en su lista de contactos"}
+        end
         json_response(response)
     end
   
@@ -17,7 +21,7 @@ class ContactsController < ApplicationController
   
     def contact_params
       params.permit(
-      :user_id
+      :user_id,
       :friend_id
       )
     end

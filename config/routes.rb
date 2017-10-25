@@ -19,6 +19,8 @@ Rails.application.routes.draw do
       resources :lagging_skill do
       end
     end
+    resources :contacts do
+    end
   end
 
 

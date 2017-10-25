@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize_request, only: [:create,:me]
+  skip_before_action :authorize_request, only: [:create]
   # POST /signup
   # return authenticated token upon signup
   def create
@@ -10,8 +10,7 @@ class UsersController < ApplicationController
   end
 
   def me
-    email = params['email']
-    render json: User.find_by(email: email)
+    render json: current_user
   end
 
   def protect_against_forgery?

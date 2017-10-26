@@ -16,14 +16,14 @@ class ChildConcernController < ApplicationController
       end
 
       def create_child_concern(json_up)
-          child_concern = ChildConcern.new( :id => json_up["id"],
+          child_concern = ChildConcern.new( :concern_id => json_up["id"],
                                             :description => json_up["description"],
                                             :order => json_up["unsolved_order"],
                                             :unsolved_problem_id => json_up["unsolved_problem_id"])
               api_child = Child.where("child_id = ? AND user_id = ?",params[:child_id], params[:user_id] ).first
               api_child_concern = ChildConcern.where("id = ? AND unsolved_problem_id = ?" ,json_up["id"], json_up["unsolved_problem_id"])
               if api_child_concern.exists?
-                   if api_child_concern.update(:id => json_up["id"],
+                   if api_child_concern.update(:concern_id => json_up["id"],
                                                :description => json_up["description"],
                                                :order => json_up["unsolved_order"],
                                                :unsolved_problem_id => json_up["unsolved_problem_id"])
@@ -44,7 +44,7 @@ class ChildConcernController < ApplicationController
       end
 
       def getChildConcern
-          @child_concern = ChildConcern.where(id: params[:child_concern_id])
+          @child_concern = ChildConcern.where(concern_id: params[:child_concern_id])
           json_response(@child_concern)
       end
 

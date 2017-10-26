@@ -8,17 +8,34 @@ class PosibleSolutionController < ApplicationController
 
       def create
         data =  JSON.parse(params[:data])
-        response = ""
+        user_id = params[:user_id]
+        child_id = params[:child_id]
+        unsolved_problem_id = params[:unsolved_problem_id]
+        puts "**********SOLUTIONS***********"
+        puts data
+        puts "Usuario:" +user_id
+        puts "CHild: "+child_id
+        puts "UP: "+unsolved_problem_id
         data.each do |json_up|
-            response = create_posible_solution(json_up)
+            response = create_posible_solution(json_up,child_id,user_id,unsolved_problem_id)
         end
         json_response(response)
       end
 
-      def create_posible_solution(json_up)
-          posible_solution = PosibleSolution.new( :id => json_up["id"],
-                                            :user_id => json_up["user_id"],
-                                            :child_id => json_up["child_id"],
+      def create_posible_solution(json_up,child_id,user_id,unsolved_problem_id)
+          puts "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@--------------@@@@@@@@@@@@@@@"
+          unsolved_problem = User.find(user_id).children.find_by_child_id(child_id).unsolved_problems.find_by_unsolved_problem_id_app(unsolved_problem_id)
+          puts "CREATE:" + unsolved_problem.id
+          solution_id = json_up["id"]
+          solution_description = json_up["description"]
+          solution_raitng = json_up["rating"]
+          solution_unsolved_problem_id =json_up["unsolved_problem_id"]
+
+          puts solution_id 
+          puts solution_description 
+          puts solution_raitng 
+          puts solution_unsolved_problem_id
+          posible_solution = PosibleSolution.new( 
                                             :unsolvedProblem_id => json_up["unsolvedProblem_id"],
                                             :childConcern_id => json_up["childConcern_id"],
                                             :adultConcern_id => json_up["adultConcern_id"],

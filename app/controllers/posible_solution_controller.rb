@@ -19,9 +19,7 @@ class PosibleSolutionController < ApplicationController
       end
 
       def create_posible_solution(json_up,user_id,child_id,unsolved_problem_id)
-          puts "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@--------------@@@@@@@@@@@@@@@"
-          api_up = User.find(user_id).children.find_by_child_id(child_id).unsolved_problems.find_by_unsolved_problem_id_app(unsolved_problem_id)
-          puts "CREATE:" + api_up.description          
+          api_up = User.find(user_id).children.find_by_child_id(child_id).unsolved_problems.find_by_unsolved_problem_id_app(unsolved_problem_id)        
           
           solution_id = json_up["id"]
           solution_description = json_up["description"]
@@ -30,6 +28,7 @@ class PosibleSolutionController < ApplicationController
 
           unsolved_problems_api = User.find(user_id).children.find_by_child_id(child_id).unsolved_problems.find_by_unsolved_problem_id_app(unsolved_problem_id)
           api_posible_solution = unsolved_problems_api.posible_solutions.find_by_posible_solution_id(solution_id)
+          
           if api_posible_solution != nil
               if api_posible_solution.update(
                     :rating => solution_raitng,
@@ -44,6 +43,7 @@ class PosibleSolutionController < ApplicationController
                   :rating => solution_raitng,
                   :description => solution_description,
                   :unsolved_problem_id => unsolved_problems_api.id)
+              
               if posible_solution.save
                 response = { message: "Posible Solution created successfully"}
                 else

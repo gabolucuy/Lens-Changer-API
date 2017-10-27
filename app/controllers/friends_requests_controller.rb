@@ -22,15 +22,35 @@ class FriendsRequestsController < ApplicationController
   end
 
   def index
-    render json:current_user.friends_requests
+    render json:FriendsRequest.where("applicant_id = ?",current_user.id)
   end
 
   def accept
-
+    @friend_request=FriendsRequest.find(params[:id])
+    @user_id = @friend_request.user_id
+    @friend_id = @friend_request.applicant_id
+    contact = Contact.new
+    contact.user_id = @user_id
+    contact.friend_id = @friend_id
+    contact1 =Contact.new
+    if contact.save
+      contact1.user_id = @friend_id
+      contact1.friend_id = @user_id
+      contact1.save
+      response = { message: "Persona agregada a la lista de contactos"}
+    else
+        response = { message: "La persona que desea añadir ya se encuentra en su lista de contactos"}
+    end
+    request = FriendsRequest.find(params[:id])
+    request.delete
+    json_response(response)
   end
 
   def reject
-
+    response = { message: "Solicitud rechazada"}
+    request = FriendsRequest.find(params[:id])
+    request.delete
+    json_response(response)
   end
 
   def protect_against_forgery?
@@ -42,7 +62,9 @@ class FriendsRequestsController < ApplicationController
   def friends_request_params
     params.permit(
     :user_id,
-    :applicant_id
+    :applicant_id,
+    :friend_id
     )
   end
+
 end

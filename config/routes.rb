@@ -16,6 +16,8 @@ Rails.application.routes.draw do
         get 'myAdultConcerns' => 'unsolved_problem#getMyAdultConcerns'
         resources :adult_concern do
         end
+        resources :posible_solution do
+        end
       end
       resources :lagging_skill do
       end

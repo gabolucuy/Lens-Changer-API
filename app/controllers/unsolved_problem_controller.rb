@@ -53,12 +53,12 @@ class UnsolvedProblemController < ApplicationController
         end
 
         def getMyAdultConcerns
-            @myAdultConcerns = AdultConcern.where(unsolved_problem_id: params[:unsolved_problem_id])
+            @myAdultConcerns = AdultConcern.where(user_id: params[:user_id], child_id: params[:child_id],unsolved_problem_id: params[:unsolved_problem_id])
             json_response(@myAdultConcerns)
         end
 
         def getChildConcerns
-            @childConcerns = ChildConcern.where(unsolved_problem_id: params[:unsolved_problem_id])
+            @childConcerns = ChildConcern.where(user_id: params[:user_id], child_id: params[:child_id],unsolved_problem_id: params[:unsolved_problem_id])
             json_response(@childConcerns)
         end
 

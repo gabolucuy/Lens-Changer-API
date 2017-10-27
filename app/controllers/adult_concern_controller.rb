@@ -16,15 +16,17 @@ class AdultConcernController < ApplicationController
         end
 
         def create_adult_concern(json_up)
-            adult_concern = AdultConcern.new( :id => json_up["id"],
+            adult_concern = AdultConcern.new( :concern_id => json_up["id"],
                                               :description => json_up["description"],
-                                              :unsolved_problem_id => json_up["unsolved_problem_id"])
+                                              :unsolved_problem_id => json_up["unsolved_problem_id"],
+                                              :child_id => params[:child_id],
+                                              :user_id =>  params[:user_id])
                 api_child = Child.where("child_id = ? AND user_id = ?",params[:child_id], params[:user_id] ).first
                 puts "**************************"
                 puts api_child.id
-                api_adult_concern = AdultConcern.where("id = ? AND unsolved_problem_id = ?" ,json_up["id"], json_up["unsolved_problem_id"])
+                api_adult_concern = AdultConcern.where("concern_id = ? AND unsolved_problem_id = ? AND child_id =? AND user_id = ?" ,json_up["id"], json_up["unsolved_problem_id"],params[:child_id], params[:user_id])
                 if api_adult_concern.exists?
-                     if api_adult_concern.update(:id => json_up["id"],
+                     if api_adult_concern.update(:concern_id => json_up["id"],
                                                  :description => json_up["description"],
                                                  :unsolved_problem_id => json_up["unsolved_problem_id"])
                          response = { message: "Adult Concern updated"}

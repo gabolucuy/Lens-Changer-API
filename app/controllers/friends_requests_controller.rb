@@ -47,7 +47,7 @@ class FriendsRequestsController < ApplicationController
   end
 
   def reject
-    response = { message: "Solicitud rechazada"}
+    response = { message: "Solicitud de amistad rechazada"}
     request = FriendsRequest.find(params[:id])
     request.delete
     json_response(response)

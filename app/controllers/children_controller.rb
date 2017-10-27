@@ -21,7 +21,7 @@ class ChildrenController < ApplicationController
 
         def getLaggingSkillsOfChild
             @child = Child.where(id: params[:child_id])
-            @laggingSkill = LaggingSkill.where(child_id: params[:child_id])
+            @laggingSkill = LaggingSkill.where(user_id: params[:user_id],child_id: params[:child_id])
             json_response(@laggingSkill)
         end
 

@@ -12,10 +12,11 @@ class LaggingSkillController < ApplicationController
     end
 
     def create_laggingSkill(json_up)
-        laggingSkillsData = LaggingSkill.new( :id => json_up["id"],
-                                         :description => json_up["description"],
-                                         :checked => json_up["checked"],
-                                         :child_id => json_up["child_id"])
+        laggingSkillsData = LaggingSkill.new(:lagskill_id => json_up["id"],
+                                             :description => json_up["description"],
+                                             :checked => json_up["checked"],
+                                             :child_id => json_up["child_id"],
+                                             :user_id => params[:user_id])
         laggingSkillsData.save
 
         response = { message: "laggingSkill created"}
@@ -23,7 +24,7 @@ class LaggingSkillController < ApplicationController
     end
 
     def destroyLaggingSkillsOfChild(child_id)
-        laggingSkillsDB = LaggingSkill.where(child_id: child_id)
+        laggingSkillsDB = LaggingSkill.where(child_id: child_id,user_id: params[:user_id])
         laggingSkillsDB.each do |laggingSkill|
           laggingSkill.destroy
         end

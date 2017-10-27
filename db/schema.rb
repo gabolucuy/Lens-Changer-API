@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171026183945) do
+ActiveRecord::Schema.define(version: 20171027032237) do
 
   create_table "adult_concerns", force: :cascade do |t|
     t.text "description"
@@ -52,6 +52,15 @@ ActiveRecord::Schema.define(version: 20171026183945) do
     t.index ["user_id"], name: "index_contacts_on_user_id"
   end
 
+  create_table "friends_requests", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "applicant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["applicant_id"], name: "index_friends_requests_on_applicant_id"
+    t.index ["user_id"], name: "index_friends_requests_on_user_id"
+  end
+
   create_table "lagging_skills", force: :cascade do |t|
     t.text "description"
     t.integer "checked"
@@ -59,16 +68,6 @@ ActiveRecord::Schema.define(version: 20171026183945) do
     t.datetime "updated_at", null: false
     t.integer "child_id"
     t.index ["child_id"], name: "index_lagging_skills_on_child_id"
-  end
-
-  create_table "posible_solutions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "rating"
-    t.integer "posible_solution_id"
-    t.text "description"
-    t.integer "unsolved_problem_id"
-    t.index ["unsolved_problem_id"], name: "index_posible_solutions_on_unsolved_problem_id"
   end
 
   create_table "unsolved_problems", force: :cascade do |t|

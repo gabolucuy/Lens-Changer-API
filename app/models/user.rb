@@ -7,5 +7,6 @@ class User < ApplicationRecord
   has_many :children
   has_many :contacts
   has_many :friends, through: :contacts
+  has_many :friends_requests
   has_many :applicants, through: :friends_requests
 end

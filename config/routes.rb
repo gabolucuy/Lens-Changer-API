@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :users do
     collection do
     get 'me'
+    get 'search'
     end
     resources :children do
       get 'getLaggingSkills' => 'children#getLaggingSkillsOfChild'

@@ -1,5 +1,10 @@
 class LaggingSkillController < ApplicationController
-    skip_before_action :authorize_request, only: [:create, :getLaggingSkill]
+    skip_before_action :authorize_request, only: [:index,:create, :getLaggingSkill]
+
+    def index
+      @lagging_skills = LaggingSkill.all
+      json_response(@lagging_skills)
+    end
 
     def create
       destroyLaggingSkillsOfChild(params[:child_id])

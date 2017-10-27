@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171027184715) do
+ActiveRecord::Schema.define(version: 20171027205552) do
 
   create_table "adult_concerns", force: :cascade do |t|
     t.text "description"
@@ -81,6 +81,9 @@ ActiveRecord::Schema.define(version: 20171027184715) do
     t.date "commented_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "posible_solution_id"
+    t.integer "solution_commentary_id_app"
+    t.index ["posible_solution_id"], name: "index_solution_commentaries_on_posible_solution_id"
   end
 
   create_table "unsolved_problems", force: :cascade do |t|

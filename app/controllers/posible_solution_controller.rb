@@ -19,8 +19,6 @@ class PosibleSolutionController < ApplicationController
       end
 
       def create_posible_solution(json_up,user_id,child_id,unsolved_problem_id)
-          api_up = User.find(user_id).children.find_by_child_id(child_id).unsolved_problems.find_by_unsolved_problem_id_app(unsolved_problem_id)
-
           solution_id = json_up["id"]
           solution_description = json_up["description"]
           solution_raitng = json_up["rating"]

@@ -16,6 +16,8 @@ Rails.application.routes.draw do
         resources :adult_concern do
         end
         resources :posible_solution do
+          resources :solution_commentary do
+          end
         end
       end
       resources :lagging_skill do

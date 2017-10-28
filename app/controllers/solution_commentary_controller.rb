@@ -1,7 +1,10 @@
 class SolutionCommentaryController < ApplicationController
 	skip_before_action :authorize_request, only: [:create, :index]
 	def index
-		
+		unsolved_problems_api = User.find(params[:user_id]).children.find_by_child_id(params[:child_id]).unsolved_problems.find_by_unsolved_problem_id_app(params[:unsolved_problem_id])
+		api_posible_solution = unsolved_problems_api.posible_solutions.find_by_posible_solution_id(params[:posible_solution_id])
+		@api_solution_comentary = api_posible_solution.solution_commentaries
+		json_response(@api_solution_comentary)
 	end
 
 	def create
@@ -20,8 +23,8 @@ class SolutionCommentaryController < ApplicationController
 
         data.each do |json_up|
             response = create_solution_commentary(json_up,user_id,child_id,unsolved_problem_id,solution_id)
-        end        
-        json_response(response)		
+        end
+        json_response(response)
 	end
 
     def create_solution_commentary(json_up,user_id,child_id,unsolved_problem_id,solution_id)
@@ -54,15 +57,15 @@ class SolutionCommentaryController < ApplicationController
               response = { message: "Error, Solution commentary was not created successfully"}
             end
           end
-           
+
       return response
-    end	
+    end
 
 
 
     def protect_against_forgery?
         false
-    end	
+    end
 
 	private
     def solution_commentary_params

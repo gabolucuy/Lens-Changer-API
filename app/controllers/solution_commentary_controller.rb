@@ -38,8 +38,8 @@ class SolutionCommentaryController < ApplicationController
 
       if api_solution_comentary != nil
           if api_solution_comentary.update(
-                :rating => solution_raitng,
-                :description => solution_description)
+              :commented_at => solution_commentary_commented_at,
+              :description => solution_commentary_id_description)
                 response = { message: "Solution commentary updated successfully"}
           else
                 response = { message: "Error, Solution commentary was not updated successfully"}

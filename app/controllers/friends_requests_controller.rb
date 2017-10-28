@@ -4,17 +4,17 @@ class FriendsRequestsController < ApplicationController
   def create
     contact = Contact.where("user_id = ? AND friend_id = ?",params[:user_id],params[:applicant_id])
     if contact.count > 0
-      response = { message: "La persona ya se encuentra en su lista de contactos"}
+      response = { message: "The person is already in your contacts list",status: "Error"}
     else
       pending_request = FriendsRequest.where("user_id = ? AND applicant_id = ?",params[:applicant_id],params[:user_id])
       if pending_request.count > 0
-        response = { message: "Ya tiene una solicitud de amistad pendiente de la otra persona"}
+        response = { message: "You have a pending friend request from this person",status: "Error"}
       else
         request = FriendsRequest.create(friends_request_params)
         if request.save
-          response = { message: "Se mando una solicitud de amistad a la persona"}
+          response = { message: "A friend request has been sent to the person",status: "Succes"}
         else
-            response = { message: "Ya tiene una solicitud de amistad pendiente con la persona"}
+            response = { message: "You already sent before a friend request to the person",status: "Error"}
         end
       end
     end
@@ -22,7 +22,7 @@ class FriendsRequestsController < ApplicationController
   end
 
   def index
-    render json:FriendsRequest.where("applicant_id = ?",current_user.id)
+    render json:FriendsRequest.where("applicant_id = ?",current_user.id), each_serializer: FriendsRequestSerializer
   end
 
   def accept
@@ -37,9 +37,9 @@ class FriendsRequestsController < ApplicationController
       contact1.user_id = @friend_id
       contact1.friend_id = @user_id
       contact1.save
-      response = { message: "Persona agregada a la lista de contactos"}
+      response = { message: "Friend request has been accepted",status: "Succes"}
     else
-        response = { message: "La persona que desea añadir ya se encuentra en su lista de contactos"}
+        response = { message: "The person is already in your contacts list ",status:"Error"}
     end
     request = FriendsRequest.find(params[:id])
     request.delete
@@ -47,7 +47,7 @@ class FriendsRequestsController < ApplicationController
   end
 
   def reject
-    response = { message: "Solicitud de amistad rechazada"}
+    response = { message: "Friend request rejected",status:"Succes"}
     request = FriendsRequest.find(params[:id])
     request.delete
     json_response(response)

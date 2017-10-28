@@ -14,7 +14,7 @@ class FriendsRequestsController < ApplicationController
         if request.save
           response = { message: "A friend request has been sent to the person",status: "Succes"}
         else
-            response = { message: "You already sent before a friend request to the person",status: "Error"}
+            response = { message: "You already sent a friend request to the person",status: "Error"}
         end
       end
     end

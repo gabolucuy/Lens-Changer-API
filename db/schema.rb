@@ -55,12 +55,23 @@ ActiveRecord::Schema.define(version: 20171027205552) do
     t.index ["user_id"], name: "index_contacts_on_user_id"
   end
 
+  create_table "friends_requests", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "applicant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["applicant_id"], name: "index_friends_requests_on_applicant_id"
+    t.index ["user_id"], name: "index_friends_requests_on_user_id"
+  end
+
   create_table "lagging_skills", force: :cascade do |t|
     t.text "description"
     t.integer "checked"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "child_id"
+    t.integer "lagskill_id"
+    t.integer "user_id"
     t.index ["child_id"], name: "index_lagging_skills_on_child_id"
   end
 

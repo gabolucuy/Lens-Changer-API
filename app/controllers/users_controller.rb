@@ -13,6 +13,11 @@ class UsersController < ApplicationController
     render json: current_user
   end
 
+  def search
+    users = User.all.where("name LIKE ? OR last_name LIKE ? OR email LIKE ?","%#{params[:search_options]}%","%#{params[:search_options]}%","%#{params[:search_options]}%")
+    render json:users
+  end
+
   def protect_against_forgery?
     false
   end
@@ -22,11 +27,13 @@ class UsersController < ApplicationController
   def user_params
     params.permit(
     :name,
+
     :last_name,
     :email,
     :phone,
     :password,
-    :password_confirmation
+    :password_confirmation,
+    :search_optionspedo
     )
   end
 

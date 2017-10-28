@@ -5,4 +5,4 @@ class Child < ApplicationRecord
 
     has_many :lagging_skills
     has_many :unsolved_problems
-  end
+end

@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   post 'unsolved_problem/new', to: 'unsolved_problem#create'
   resources :users do
     collection do
-    get 'me'    
+    get 'me'
+    get 'search'
     end
     resources :children do
       get 'getLaggingSkills' => 'children#getLaggingSkillsOfChild'
@@ -25,12 +26,18 @@ Rails.application.routes.draw do
     end
     resources :contacts do
     end
+    resources :friends_requests do
+      member do
+        post 'accept'
+        post 'reject'
+      end
+    end
   end
 
 
 
 
-  
+
 
   #get 'child/:child_id', to: 'children#getChild'
   get 'unsolved_problem/:unsolved_problem_id', to: 'unsolved_problem#getUnsolvedProblem'

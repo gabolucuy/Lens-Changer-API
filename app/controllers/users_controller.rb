@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   end
 
   def search
-    users = User.all.where("email LIKE ? ","%#{params[:search_options]}%")
+    users = User.all.where("email LIKE ? AND id != ?","%#{params[:search_options]}%",current_user.id)
     render json:users
   end
 

@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     end
     resources :contacts do
     end
+    get 'pendingRequests', to: 'friends_requests#getPendingRequests'
     resources :friends_requests do
       member do
         post 'accept'

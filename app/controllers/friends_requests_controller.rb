@@ -45,7 +45,9 @@ class FriendsRequestsController < ApplicationController
     request.delete
     json_response(response)
   end
-
+  def getPendingRequests
+    render json:FriendsRequest.where("user_id = ?",params[:user_id])
+  end
   def reject
     response = { message: "Friend request rejected",status:"Succes"}
     request = FriendsRequest.find(params[:id])

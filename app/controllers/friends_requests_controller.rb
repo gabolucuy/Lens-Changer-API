@@ -46,7 +46,17 @@ class FriendsRequestsController < ApplicationController
     json_response(response)
   end
   def getPendingRequests
-    render json:FriendsRequest.where("user_id = ?",params[:user_id])
+    @applicant_ids = FriendsRequest.select('applicant_id').where("user_id = ?",params[:user_id])
+    if @applicant_ids.length > 0
+      @finalResponse = User.where("id = ?",@applicant_ids.first.applicant_id)
+      puts @applicant_ids.first.applicant_id
+      @applicant_ids.drop(1).each do |a|
+        puts a.applicant_id
+        @firstResponse = User.where("id = ?",a.applicant_id)
+        @finalResponse = @finalResponse + @firstResponse
+      end
+      render json:@finalResponse
+    end
   end
   def reject
     response = { message: "Friend request rejected",status:"Succes"}

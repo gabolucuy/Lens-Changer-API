@@ -43,6 +43,8 @@ Rails.application.routes.draw do
   #get 'child/:child_id', to: 'children#getChild'
   get 'unsolved_problem/:unsolved_problem_id', to: 'unsolved_problem#getUnsolvedProblem'
 
+  root  "notification#index"
+
 
 
 

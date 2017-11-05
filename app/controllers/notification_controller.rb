@@ -9,12 +9,13 @@ class NotificationController < ApplicationController
     require 'net/http'
     require 'uri'
     params = {"app_id" => "46f73879-5b3e-45a0-90de-91f455b65eb4",
-              "contents" => {"en" => "English Message"},
-              "included_segments" => ["All"]}
+              "contents" => {"en" => "Accepted friend request"},
+              "filters" => [{"User_Id": "3"}]
+              #  "filters" => [{"User_Id": @friend_id.to_s}]
+    }
     uri = URI.parse('https://onesignal.com/api/v1/notifications')
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
-
     request = Net::HTTP::Post.new(uri.path,
                                   'Content-Type'  => 'application/json;charset=utf-8',
                                   'Authorization' => "Basic YzQ4ZGQ1MjktNmY1Ni00YTc5LTk0NDAtNDJiMzUxZjUyNTEz")

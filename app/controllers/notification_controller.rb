@@ -10,8 +10,8 @@ class NotificationController < ApplicationController
     require 'uri'
     params = {"app_id" => "46f73879-5b3e-45a0-90de-91f455b65eb4",
               "contents" => {"en" => "Accepted friend request"},
-              "filters" => [{"User_Id": "3"}]
-              #  "filters" => [{"User_Id": @friend_id.to_s}]
+              "filters" => [{"field": "tag", "key": "User_Id", "relation": "=", "value": "2"}]
+              #"filters" => [{"field": "tag", "key": "User_Id", "relation": "=", "value": @friend_id}]
     }
     uri = URI.parse('https://onesignal.com/api/v1/notifications')
     http = Net::HTTP.new(uri.host, uri.port)

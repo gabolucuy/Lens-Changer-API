@@ -41,7 +41,7 @@ class FriendsRequestsController < ApplicationController
       contact1.user_id = @friend_id
       contact1.friend_id = @user_id
       # # mandando notificaciones
-      user = User.find(params[:applicant_id])
+      user = User.where(id: @user_id)
       text =  user.name + " " + user.last_name + " accepted your friend request"
       notifications(@user_id,text)
 

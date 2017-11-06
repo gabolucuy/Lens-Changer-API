@@ -23,6 +23,10 @@ Rails.application.routes.draw do
       end
       resources :lagging_skill do
       end
+      resources :alsup_share do
+
+      end
+      get 'showShered' => 'alsup_share#showShered'
     end
     resources :contacts do
     end

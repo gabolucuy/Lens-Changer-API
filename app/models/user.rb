@@ -9,4 +9,5 @@ class User < ApplicationRecord
   has_many :friends, through: :contacts
   has_many :friends_requests
   has_many :applicants, through: :friends_requests
+  has_one  :alsup_share
 end

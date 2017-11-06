@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171106004526) do
+ActiveRecord::Schema.define(version: 20171104173516) do
 
   create_table "adult_concerns", force: :cascade do |t|
     t.text "description"
@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(version: 20171106004526) do
     t.integer "child_id"
     t.integer "concern_id"
     t.index ["unsolved_problem_id"], name: "index_adult_concerns_on_unsolved_problem_id"
+  end
+
+  create_table "alsup_shares", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "child_id"
+    t.integer "user_id"
+    t.index ["child_id"], name: "index_alsup_shares_on_child_id"
+    t.index ["user_id"], name: "index_alsup_shares_on_user_id"
   end
 
   create_table "child_concerns", force: :cascade do |t|

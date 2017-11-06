@@ -12,7 +12,8 @@ class FriendsRequestsController < ApplicationController
       else
         request = FriendsRequest.create(friends_request_params)
         if request.save
-            text = "A friend request has been sent to the person"
+            user = User.find(params[:applicant_id])
+            text = "You have a friend request from " + user.name + " " + user.last_name
             notifications(params[:applicant_id], text)
 
           response = { message: "A friend request has been sent to the person",status: "Succes"}
@@ -40,7 +41,8 @@ class FriendsRequestsController < ApplicationController
       contact1.user_id = @friend_id
       contact1.friend_id = @user_id
       # # mandando notificaciones
-      text = "Friend request has been accepted"
+      user = User.find(params[:applicant_id])
+      text =  user.name + " " + user.last_name + " accepted your friend request"
       notifications(@user_id,text)
 
       contact1.save

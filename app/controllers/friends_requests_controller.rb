@@ -12,6 +12,10 @@ class FriendsRequestsController < ApplicationController
       else
         request = FriendsRequest.create(friends_request_params)
         if request.save
+            user_create = User.find(params[:user_id])
+            text = "You have a friend request from " + user_create.name + " " + user_create.last_name
+            notifications(params[:applicant_id], text)
+
           response = { message: "A friend request has been sent to the person",status: "Succes"}
         else
             response = { message: "You already sent a friend request to the person",status: "Error"}
@@ -36,6 +40,12 @@ class FriendsRequestsController < ApplicationController
     if contact.save
       contact1.user_id = @friend_id
       contact1.friend_id = @user_id
+      # # mandando notificaciones
+      user_accept = User.find(@friend_id)
+      text =  user_accept.name + " " + user_accept.last_name + " accepted your friend request"
+      #text =  "accepted your friend request"
+      notifications(@user_id,text)
+
       contact1.save
       response = { message: "Friend request has been accepted",status: "Succes"}
     else
@@ -67,6 +77,25 @@ class FriendsRequestsController < ApplicationController
 
   def protect_against_forgery?
     false
+  end
+
+  def notifications(value, text)
+    require 'net/http'
+    require 'uri'
+    params = {"app_id" => "46f73879-5b3e-45a0-90de-91f455b65eb4",
+              "contents" => {"en" => text},
+              "filters" => [{"field": "tag", "key": "User_Id", "relation": "=", "value": value}]
+              #"filters" => [{"field": "tag", "key": "User_Id", "relation": "=", "value": @friend_id}]
+    }
+    uri = URI.parse('https://onesignal.com/api/v1/notifications')
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    request = Net::HTTP::Post.new(uri.path,
+                                  'Content-Type'  => 'application/json;charset=utf-8',
+                                  'Authorization' => "Basic YzQ4ZGQ1MjktNmY1Ni00YTc5LTk0NDAtNDJiMzUxZjUyNTEz")
+    request.body = params.as_json.to_json
+    response = http.request(request)
+    puts response.body
   end
 
   private

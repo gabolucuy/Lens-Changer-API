@@ -6,14 +6,14 @@ class AlsupShareController < ApplicationController
 
         child_id_api = User.find(params[:user_id]).children.find_by_child_id(params[:child_id])
         if(child_id_api==nil)
-            response = { message: "Primero suba el/la niñ@ a la nube"}
+            response = { message: "Niño ya subido a la nube, vuelva a intentar"}
         else
 
             alsupshare = AlsupShare.new(child_id: child_id_api.id, user_id: params[:friend_id])   	
             if alsupshare.save
         		response = { message: "ALSUP Compartido exitosamente"}
         	else
-        		response = { message: "Error al compartir ALSUP"}
+        		response = { message: "ALSUP ya compartido"}
         	end
         end   
         json_response(response)

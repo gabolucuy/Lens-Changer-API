@@ -19,6 +19,16 @@ class AlsupShareController < ApplicationController
         json_response(response)
     end
 
+    def index
+      @sharedAlsups = AlsupShare.where("user_id = ?",params[:user_id])
+      render json: @sharedAlsups
+    end
+
+    def sharedChilds
+        childs = User.find(params[:user_id]).children.find_by_child_id(params[:child_id])
+        render json: childs
+    end
+
     def showShered
         # AlsupShare.where(child_id: child_id_api).includes(:user)
         

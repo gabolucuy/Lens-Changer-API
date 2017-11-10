@@ -27,6 +27,9 @@ Rails.application.routes.draw do
 
       end
       get 'showShered' => 'alsup_share#showShered'
+      get 'sharedChilds' => 'alsup_share#sharedChilds'
+    end
+    resources :alsup_share do
     end
     resources :contacts do
     end

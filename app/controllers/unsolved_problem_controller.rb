@@ -47,7 +47,7 @@ class UnsolvedProblemController < ApplicationController
             return response
       	end
         def getUnsolvedProblem
-            @unsolved_problem = UnsolvedProblem.where(id: params[:unsolved_problem_id])
+            @unsolved_problem = UnsolvedProblem.where(id: params[:unsolved_problem_id]).first
             json_response(@unsolved_problem)
 
         end

@@ -9,8 +9,12 @@ Rails.application.routes.draw do
     end
     resources :children do
       get 'getLaggingSkills' => 'children#getLaggingSkillsOfChild'
+      get 'sharedUnsolvedProblems', to:'alsup_share#getSharedUnsolvedProblems'
       resources "unsolved_problem" do
         get 'getChildConcern', to: 'unsolved_problem#getChildConcerns'
+        get 'sharedChildConcerns', to:'alsup_share#getSharedChildConcerns'
+        get 'sharedAdultConcerns', to:'alsup_share#getSharedAdultConcerns'
+        get 'sharedPosibleSolutions', to:'alsup_share#getSharedPosibleSolutions'
         resources :child_concern do
         end
         get 'myAdultConcerns' => 'unsolved_problem#getMyAdultConcerns'
@@ -27,7 +31,7 @@ Rails.application.routes.draw do
 
       end
       get 'showShered' => 'alsup_share#showShered'
-      get 'sharedChilds' => 'alsup_share#sharedChilds'
+      get 'getChild', to: 'alsup_share#getChild'
     end
     resources :alsup_share do
     end
@@ -49,6 +53,7 @@ Rails.application.routes.draw do
 
   #get 'child/:child_id', to: 'children#getChild'
   get 'unsolved_problem/:unsolved_problem_id', to: 'unsolved_problem#getUnsolvedProblem'
+  get 'solution_commentaries/:posible_solution_id', to: 'alsup_share#getSharedSolutionCommentaries'
 
 
 

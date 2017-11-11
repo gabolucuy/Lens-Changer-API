@@ -1,5 +1,5 @@
 class AlsupShareController < ApplicationController
-    skip_before_action :authorize_request, only: [:create,:index,:showShered]
+    skip_before_action :authorize_request, only: [:create,:index,:showShered,:sharedChilds,:getChild,:getLaggingSkills,:getSharedUnsolvedProblems,:getSharedChildConcerns,:getSharedAdultConcerns,:getSharedPosibleSolutions,:getSharedSolutionCommentaries]
 
     def create
         response = { message: "ALSUP"}
@@ -20,14 +20,44 @@ class AlsupShareController < ApplicationController
     end
 
     def index
-      @sharedAlsups = AlsupShare.where("user_id = ?",params[:user_id])
-      render json: @sharedAlsups
+        @childs_id = AlsupShare.select("child_id").where("user_id = ?",params[:user_id])
+        @childs = []
+        @childs_id.each do |id|
+            @childs = @childs + Child.select("*").where("id = ?",id['child_id'])
+        end
+        render json: @childs
     end
 
-    def sharedChilds
-        childs = User.find(params[:user_id]).children.find_by_child_id(params[:child_id])
-        render json: childs
+    def getChild
+        @child = Child.where(id: params[:child_id]).first
+        render json: @child
     end
+
+    def getSharedUnsolvedProblems
+        @unsolvedProblems = UnsolvedProblem.where(child_id: params[:child_id])
+        render json: @unsolvedProblems
+    end
+
+    def getSharedChildConcerns
+        @childConcerns = ChildConcern.where(user_id: params[:user_id],child_id: params[:child_id],unsolved_problem_id: params[:unsolved_problem_id])
+        render json: @childConcerns
+    end
+
+    def getSharedAdultConcerns
+        @adultConcerns = AdultConcern.where(user_id: params[:user_id],child_id: params[:child_id],unsolved_problem_id: params[:unsolved_problem_id])
+        render json: @adultConcerns
+    end
+
+    def getSharedPosibleSolutions
+        @posibleSolutions = PosibleSolution.where(unsolved_problem_id: params[:unsolved_problem_id])
+        render json: @posibleSolutions
+    end
+
+    def getSharedSolutionCommentaries
+        @solutionsComentaries = SolutionCommentary.where(posible_solution_id: params[:posible_solution_id])
+        render json: @solutionsComentaries
+    end
+
 
     def showShered
         # AlsupShare.where(child_id: child_id_api).includes(:user)

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :children do
       get 'getLaggingSkills' => 'children#getLaggingSkillsOfChild'
       get 'sharedUnsolvedProblems', to:'alsup_share#getSharedUnsolvedProblems'
+      get 'shareChildId', to: 'alsup_share#getSharedChildId'
       resources "unsolved_problem" do
         get 'getChildConcern', to: 'unsolved_problem#getChildConcerns'
         get 'sharedChildConcerns', to:'alsup_share#getSharedChildConcerns'

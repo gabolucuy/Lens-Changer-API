@@ -1,5 +1,5 @@
 class AlsupShareController < ApplicationController
-    skip_before_action :authorize_request, only: [:create,:index,:showShered,:sharedChilds,:getChild,:getLaggingSkills,:getSharedUnsolvedProblems,:getSharedChildConcerns,:getSharedAdultConcerns,:getSharedPosibleSolutions,:getSharedSolutionCommentaries,:destroy,:getSharedChildId]
+    skip_before_action :authorize_request, only: [:create,:index,:showShered,:sharedChilds,:getChild,:getLaggingSkills,:getSharedUnsolvedProblems,:getSharedChildConcerns,:getSharedAdultConcerns,:getSharedPosibleSolutions,:getSharedSolutionCommentaries,:destroy]
 
     def create
         response = { message: "ALSUP"}
@@ -53,11 +53,6 @@ class AlsupShareController < ApplicationController
         render json: @posibleSolutions
     end
 
-    def getSharedChildId
-        @sharedChildId = Child.select("id").where(user_id: params[:user_id],child_id: params[:child_id]).first
-        render json: @sharedChildId
-    end
-
     def getSharedSolutionCommentaries
         @solutionsComentaries = SolutionCommentary.where(posible_solution_id: params[:posible_solution_id])
         render json: @solutionsComentaries
@@ -81,7 +76,8 @@ class AlsupShareController < ApplicationController
     end
 
     def destroy
-        alsupShare = AlsupShare.where(user_id: params[:user_id],child_id: params[:id]).first
+        child_shared = User.find(params[:user_id]).children.find_by_child_id(params[:child_id])
+        alsupShare = AlsupShare.find_by_child_id(child_shared.id)
         alsupShare.destroy
         response = { message: "Now you stopped sharing this ALSUP",status: "Succes"}      
         json_response(response)

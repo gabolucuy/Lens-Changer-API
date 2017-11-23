@@ -4,7 +4,7 @@ class ChildrenController < ApplicationController
         def create
             c = Child.where(child_id: params[:child_id], user_id: params[:user_id])
             if(c.exists?)
-                c.update(:name => params[:name], :gender => params[:gender], :birthday => params[:birthday])
+                c.update(:name => params[:name])
                 response = { message: "Child Updated"}
                 json_response(response)
             else
@@ -41,8 +41,6 @@ class ChildrenController < ApplicationController
                 :id,
                 :child_id,
                 :name,
-                :gender,
-                :birthday,
                 :user_id
                 )
         end

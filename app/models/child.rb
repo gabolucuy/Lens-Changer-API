@@ -1,6 +1,6 @@
 class Child < ApplicationRecord
     # Validations
-    validates_presence_of :child_id, :name, :gender, :birthday
+    validates_presence_of :child_id, :name
     belongs_to :user
 
     has_many :lagging_skills

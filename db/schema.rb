@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 20171123005009) do
     t.string "email"
     t.string "phone"
     t.string "password_digest"
+    t.string "is_activated"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

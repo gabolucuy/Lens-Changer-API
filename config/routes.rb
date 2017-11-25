@@ -1,11 +1,19 @@
 Rails.application.routes.draw do
+  #get 'user_activate/index', to: 'user_activate#index'
+  get '/activate', to: 'activation#show'
+  #get 'activate', to: 'users#index'
   post 'auth/login', to: 'authentication#authenticate'
-  post 'signup', to: 'users#create'
-  post 'unsolved_problem/new', to: 'unsolved_problem#create'
+  post 'signup', to: 'users#create'  
+  post 'unsolved_problem/new', to: 'unsolved_problem#create' 
+  #get 'user_activate', to: 'users#activate' 
+  resources :activation do 
+  end
   resources :users do
     collection do
     get 'me'
-    get 'search'
+    get 'search'    
+    #get 'activate_user'
+    #get :confirm_email
     end
     resources :children do
       get 'getLaggingSkills' => 'children#getLaggingSkillsOfChild'

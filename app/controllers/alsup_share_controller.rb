@@ -12,8 +12,10 @@ class AlsupShareController < ApplicationController
             alsupshare = AlsupShare.new(child_id: child_id_api.id, user_id: params[:friend_id])
             if alsupshare.save
             @user_s= User.find(params[:user_id])
-            text =  @user_s.name + " " + @user_s.last_name + " shared his child's ALSUP"
-            notifications(params[:friend_id],text)
+            @childShared = Children.find(child_id_api.id)
+            title = @user_s.name + " " + @user_s.last_name
+            text = "The shared child is " + @childShared.name + " and the " +@user_s.name +" email is " + @user_s.email
+            notifications(params[:friend_id],text,title)
         		response = { message: "ALSUP successfully shared"}
         	else
         		response = { message: "ALSUP already shared"}
@@ -22,10 +24,11 @@ class AlsupShareController < ApplicationController
         json_response(response)
     end
 
-    def notifications(value, text)
+    def notifications(value, text, title)
       require 'net/http'
       require 'uri'
       params = {"app_id" => "46f73879-5b3e-45a0-90de-91f455b65eb4",
+                "heading": title,
                 "contents" => {"en" => text},
                 "filters" => [{"field": "tag", "key": "User_Id", "relation": "=", "value": value}]
                 #"filters" => [{"field": "tag", "key": "User_Id", "relation": "=", "value": @friend_id}]
@@ -40,6 +43,7 @@ class AlsupShareController < ApplicationController
       response = http.request(request)
       puts response.body
     end
+
 
     def index
         @childs_id = AlsupShare.select("child_id").where("user_id = ?",params[:user_id])

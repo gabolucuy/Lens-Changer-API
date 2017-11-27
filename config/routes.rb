@@ -23,6 +23,8 @@ Rails.application.routes.draw do
         resources :posible_solution do
           resources :solution_commentary do
           end
+          resources :solution_pairs do
+          end
         end
       end
       resources :lagging_skill do

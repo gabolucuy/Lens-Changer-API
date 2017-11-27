@@ -10,4 +10,5 @@ class User < ApplicationRecord
   has_many :friends_requests
   has_many :applicants, through: :friends_requests
   has_many :alsup_share
+  has_many :solution_pairs
 end

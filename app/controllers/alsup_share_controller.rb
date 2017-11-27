@@ -13,10 +13,12 @@ class AlsupShareController < ApplicationController
             if alsupshare.save
             @user_s= User.find(params[:user_id])
             @childShared = Children.find(child_id_api.id)
-            @myFriend = @user_s.contacts.find(params[:friend_id])
+            #@myFriend = @user_s.contacts.find(params[:friend_id])
+            #@myFriend = @user_s.contacts.find_by_friend_id(params[:friend_id])
+            #@myFriend = Contact.where("user_id = ? AND friend_id = ?",params[:user_id],params[:friend_id])
             title = @user_s.name + " " + @user_s.last_name
             text = "The shared child is " + @childShared.name + " and the " +@user_s.name +" email is " + @user_s.email
-            notifications(@myFriend.id,text,title)
+            notifications(params[:friend_id],text,title)
         		response = { message: "ALSUP successfully shared"}
         	else
         		response = { message: "ALSUP already shared"}

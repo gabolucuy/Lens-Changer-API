@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171123005009) do
+ActiveRecord::Schema.define(version: 20171126153440) do
 
   create_table "adult_concerns", force: :cascade do |t|
     t.text "description"
@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(version: 20171123005009) do
   end
 
   create_table "contacts", force: :cascade do |t|
-    t.integer "friend_id"
     t.integer "user_id"
+    t.integer "friend_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["friend_id"], name: "index_contacts_on_friend_id"
@@ -102,6 +102,20 @@ ActiveRecord::Schema.define(version: 20171123005009) do
     t.integer "posible_solution_id"
     t.integer "solution_commentary_id_app"
     t.index ["posible_solution_id"], name: "index_solution_commentaries_on_posible_solution_id"
+  end
+
+  create_table "solution_pairs", force: :cascade do |t|
+    t.text "description"
+    t.text "description2"
+    t.integer "solution_id"
+    t.integer "user_id"
+    t.integer "child_id"
+    t.integer "posible_solution_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["child_id"], name: "index_solution_pairs_on_child_id"
+    t.index ["posible_solution_id"], name: "index_solution_pairs_on_posible_solution_id"
+    t.index ["user_id"], name: "index_solution_pairs_on_user_id"
   end
 
   create_table "unsolved_problems", force: :cascade do |t|
